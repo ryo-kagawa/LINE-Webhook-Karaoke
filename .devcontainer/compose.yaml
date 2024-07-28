@@ -1,0 +1,21 @@
+services:
+  develop:
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    tty: true
+
+  db:
+    image: mysql:9.0.0
+    command: "mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_bin"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
