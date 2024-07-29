@@ -70,7 +70,7 @@ func TimerHandler(handler http.Handler) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		startTime := time.Now()
 		handler.ServeHTTP(w, r)
-		fmt.Printf("requestTime: %vns\n", time.Since(startTime).Nanoseconds())
+		fmt.Printf("requestTime: %dns\n", time.Since(startTime).Nanoseconds())
 	})
 }
 
