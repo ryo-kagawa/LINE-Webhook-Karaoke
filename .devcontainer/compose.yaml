@@ -8,7 +8,7 @@ services:
     tty: true
 
   db:
-    image: mysql:9.0.0
+    image: mysql:9.0.1
     command: "mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_bin"
     environment:
       MYSQL_ROOT_PASSWORD: root
