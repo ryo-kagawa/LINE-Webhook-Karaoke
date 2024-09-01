@@ -4,7 +4,7 @@ go 1.22.6
 
 require (
 	github.com/go-sql-driver/mysql v1.8.1
-	github.com/line/line-bot-sdk-go/v8 v8.7.0
+	github.com/line/line-bot-sdk-go/v8 v8.8.0
 )
 
 require filippo.io/edwards25519 v1.1.0 // indirect
