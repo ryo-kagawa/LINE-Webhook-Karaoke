@@ -8,11 +8,7 @@ import (
 type Initialize struct {
 }
 
-func (i Initialize) Name() string {
-	return "initialize"
-}
-
-func (i Initialize) Execute() (string, error) {
+func (Initialize) Execute(arguments []string) (string, error) {
 	environment := GetEnvironment()
 	err := environment.Validate()
 	if err != nil {
@@ -31,4 +27,8 @@ func (i Initialize) Execute() (string, error) {
 	}
 
 	return "initialize finish", nil
+}
+
+func (Initialize) Name() string {
+	return "initialize"
 }

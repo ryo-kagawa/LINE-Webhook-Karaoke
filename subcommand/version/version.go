@@ -10,11 +10,7 @@ var version string = "devel"
 type Version struct {
 }
 
-func (v Version) Name() string {
-	return "version"
-}
-
-func (v Version) Execute() (string, error) {
+func (Version) Execute(arguments []string) (string, error) {
 	result := ""
 	info, _ := debug.ReadBuildInfo()
 	result += fmt.Sprintf("LINE-Webhook-Karaoke %s\n", version)
@@ -23,4 +19,8 @@ func (v Version) Execute() (string, error) {
 		result += fmt.Sprintf("%s %s\n", dep.Path, dep.Version)
 	}
 	return result, nil
+}
+
+func (Version) Name() string {
+	return "version"
 }

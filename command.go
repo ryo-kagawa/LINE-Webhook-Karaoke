@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
@@ -11,12 +10,15 @@ import (
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/domain/model"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/domain/repository"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database"
+	"github.com/ryo-kagawa/go-utils/commandline"
 )
 
 type Command struct {
 }
 
-func (c Command) Execute() (string, error) {
+var _ = (commandline.RootCommand)(Command{})
+
+func (Command) Execute(arguments []string) (string, error) {
 	environment := GetEnvironment()
 	err := environment.Validate()
 	if err != nil {
@@ -51,35 +53,6 @@ func (c Command) Execute() (string, error) {
 	}
 
 	return "stop", nil
-}
-
-func (c Command) Help() string {
-	return strings.Trim(
-		`
-usage:
-  LINE-Wehbhook-Karaoke [subcommand]
-
-subcommands:
-  initialize Initialize Database
-	version    Various versions
-
-usage: LINE-Wehbhook-Karaoke
-environment:
-  DATABASE_PASSWORD
-  DATABASE_URL
-  DATABASE_USER
-  LINE_CHANNEL_SECRET
-  LINE_CHANNEL_TOKEN
-
-usage: LINE-Wehbhook-Karaoke intialize
-environment:
-  DATABASE_PASSWORD
-  DATABASE_URL
-  DATABASE_USER
-usage: LINE-Wehbhook-Karaoke version
-`,
-		"\n",
-	)
 }
 
 func TimerHandler(handler http.Handler) http.HandlerFunc {

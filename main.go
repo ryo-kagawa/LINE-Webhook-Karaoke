@@ -4,19 +4,19 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/subcommand/help"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/subcommand/initialize"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/subcommand/version"
-	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/utils/command"
+	"github.com/ryo-kagawa/go-utils/commandline"
 )
 
 func main() {
-	result, err := command.Execute(
+	result, err := commandline.Execute(
 		Command{},
-		[]command.Subcommand{
-			initialize.Initialize{},
-			version.Version{},
-		},
 		os.Args[1:],
+		help.HelpCommand{},
+		version.Version{},
+		initialize.Initialize{},
 	)
 	if err != nil {
 		fmt.Println(err)
