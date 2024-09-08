@@ -1,6 +1,6 @@
 module github.com/ryo-kagawa/LINE-Webhook-Karaoke
 
-go 1.22.6
+go 1.23.0
 
 require (
 	github.com/go-sql-driver/mysql v1.8.1
