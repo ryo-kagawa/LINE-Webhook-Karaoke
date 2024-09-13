@@ -9,14 +9,15 @@ type Artist struct {
 	JoysoundId sql.Null[string]
 }
 
+// 別グループでも同じグループとして同一IDを使用しているパターンがあるため、重複は許容する
 func CreateTableArtist(db *sql.DB) error {
 	_, err := db.Exec(
 		`
 CREATE TABLE artist(
 id         BIGINT      NOT NULL AUTO_INCREMENT,
 name       VARCHAR(50) NOT NULL,
-damId      VARCHAR(6)      NULL                UNIQUE,
-joysoundId VARCHAR(6)      NULL                UNIQUE,
+damId      VARCHAR(6)      NULL,
+joysoundId VARCHAR(6)      NULL,
 
 PRIMARY KEY(id)
 )
