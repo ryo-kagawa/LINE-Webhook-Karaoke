@@ -4,5 +4,5 @@ github.com/go-sql-driver/mysql v1.8.1 h1:LedoTUt/eveggdHS9qUFC1EFSa8bU2+1pZjSRpv
 github.com/go-sql-driver/mysql v1.8.1/go.mod h1:wEBSXgmK//2ZFJyE+qWnIsVGmvmEKlqwuVSjsCm7DZg=
 github.com/line/line-bot-sdk-go/v8 v8.8.0 h1:dBq/GqXY+HOgbzdQKx2zW71ooANmW5vk7rPiMTe5Vd4=
 github.com/line/line-bot-sdk-go/v8 v8.8.0/go.mod h1:cyBikWs6Y4slOGgElUsY5LctrlY8fx1ncGnNrZdwLVw=
-github.com/ryo-kagawa/go-utils v1.0.1 h1:YRBllsXfUtzcRWr75dcykw2B9tzPMeOWjcjfXRm/QJI=
-github.com/ryo-kagawa/go-utils v1.0.1/go.mod h1:OiFOLcgj3GN2DfDR7/rSh3WjvVea+/m/9I7K1hpzBHA=
+github.com/ryo-kagawa/go-utils v1.1.0 h1:QKlCKfixHInKaBPndiEXRf6lfXzW6h36ghmDMtKn2Tk=
+github.com/ryo-kagawa/go-utils v1.1.0/go.mod h1:H2sCkC83sJavplL661y+ej+GFrPiUQa4mDlYkTVdWRo=
