@@ -29,7 +29,7 @@ FROM
 		SELECT
 			artistId,
 			name,
-			lyrics,
+			LEFT(lyrics, 50) AS lyrics,
 			damId
 		FROM
 			song
@@ -83,7 +83,7 @@ FROM
 		SELECT
 			artistId,
 			name,
-			lyrics,
+			LEFT(lyrics, 50) AS lyrics,
 			joysoundId
 		FROM
 			song
@@ -138,7 +138,7 @@ FROM
 		SELECT
 			artistId,
 			name,
-			lyrics,
+			LEFT(lyrics, 50) AS lyrics,
 			damId,
 			joysoundId
 		FROM
