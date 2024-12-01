@@ -2,10 +2,10 @@ services:
   develop:
     image: mcr.microsoft.com/devcontainers/go:1-1.23-bookworm
     volumes:
-      - ..:/workspace:cached
+      - ../../:/workspace:cached
     tty: true
 
-  db:
+  mysql:
     image: mysql:9.0.1
     command: "mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_bin"
     environment:
@@ -13,7 +13,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - db-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
 
 volumes:
-  db-data:
+  mysql-data:

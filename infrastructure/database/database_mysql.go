@@ -1,23 +1,41 @@
+//go:build mysql
+
 package database
 
 import (
 	"database/sql"
 
+	"github.com/go-sql-driver/mysql"
+
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/domain/model"
-	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/domain/repository"
-	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/table"
+	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/mysql/initialize"
+	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/mysql/table"
 )
 
-type karaokeSongDatabase struct {
-	db *sql.DB
+func NewDatabase(address string, user string, password string, database string) (Database, error) {
+	config := mysql.Config{
+		User:   user,
+		Passwd: password,
+		Net:    "tcp",
+		Addr:   address,
+		DBName: database,
+	}
+	db, err := sql.Open("mysql", config.FormatDSN())
+	if err != nil {
+		return Database{}, err
+	}
+
+	return Database{
+		db: db,
+	}, nil
 }
 
-func NewKaraokeSongDatabase(db *sql.DB) repository.KaraokeSongRepository {
-	return karaokeSongDatabase{db}
+func (d Database) Initialize(database string) error {
+	return initialize.InitializeDB(d.db, database)
 }
 
-func (k karaokeSongDatabase) Dam() ([]model.KaraokeSong, error) {
-	rows, err := k.db.Query(
+func (d Database) Dam() ([]model.KaraokeSong, error) {
+	rows, err := d.db.Query(
 		`
 SELECT
 	artist.name AS artistName,
@@ -63,15 +81,14 @@ ORDER BY
 		}
 		karaokeSongs = append(karaokeSongs, *res)
 	}
-	err = rows.Err()
-	if err != nil {
+	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 	return karaokeSongs, nil
 }
 
-func (k karaokeSongDatabase) Joysound() ([]model.KaraokeSong, error) {
-	rows, err := k.db.Query(
+func (d Database) Joysound() ([]model.KaraokeSong, error) {
+	rows, err := d.db.Query(
 		`
 SELECT
 	artist.name AS artistName,
@@ -117,15 +134,14 @@ ORDER BY
 		}
 		karaokeSongs = append(karaokeSongs, *res)
 	}
-	err = rows.Err()
-	if err != nil {
+	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 	return karaokeSongs, nil
 }
 
-func (k karaokeSongDatabase) Ramdom() ([]model.KaraokeSong, error) {
-	rows, err := k.db.Query(
+func (d Database) Ramdom() ([]model.KaraokeSong, error) {
+	rows, err := d.db.Query(
 		`
 SELECT
 	artist.name AS artistName,

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/rootcommand"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/subcommand/help"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/subcommand/initialize"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/subcommand/version"
@@ -12,7 +13,7 @@ import (
 
 func main() {
 	result, err := commandline.Execute(
-		Command{},
+		rootcommand.Command{},
 		os.Args[1:],
 		help.HelpCommand{},
 		version.Version{},

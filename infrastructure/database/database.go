@@ -3,28 +3,11 @@ package database
 import (
 	"database/sql"
 
-	"github.com/go-sql-driver/mysql"
+	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/domain/repository"
 )
 
-func GenerateDsn(user string, password string, url string) string {
-	config := mysql.Config{
-		User:   user,
-		Passwd: password,
-		Net:    "tcp",
-		Addr:   url,
-		DBName: "karaoke",
-	}
-	return config.FormatDSN()
+type Database struct {
+	db *sql.DB
 }
 
-func GetDatabase(dsn string) (*sql.DB, error) {
-	db, err := sql.Open(
-		"mysql",
-		dsn,
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	return db, nil
-}
+var _ = (repository.KaraokeSongRepository)(Database{})

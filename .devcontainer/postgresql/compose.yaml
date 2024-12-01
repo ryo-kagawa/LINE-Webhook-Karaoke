@@ -1,0 +1,19 @@
+services:
+  develop:
+    image: mcr.microsoft.com/devcontainers/go:1-1.23-bookworm
+    volumes:
+      - ../../:/workspace:cached
+    tty: true
+
+  postgresql:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+
+volumes:
+  postgresql-data:

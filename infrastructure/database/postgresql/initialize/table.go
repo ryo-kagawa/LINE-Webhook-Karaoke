@@ -3,7 +3,7 @@ package initialize
 import (
 	"database/sql"
 
-	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/table"
+	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/postgresql/table"
 )
 
 func InitializeTable(db *sql.DB) error {

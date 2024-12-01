@@ -4,6 +4,7 @@ go 1.23.0
 
 require (
 	github.com/go-sql-driver/mysql v1.8.1
+	github.com/lib/pq v1.10.9
 	github.com/line/line-bot-sdk-go/v8 v8.10.0
 	github.com/ryo-kagawa/go-utils v1.1.0
 )
