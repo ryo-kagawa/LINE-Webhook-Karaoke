@@ -1,4 +1,4 @@
-package main
+package rootcommand
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"github.com/line/line-bot-sdk-go/v8/linebot/webhook"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/domain/model"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/domain/repository"
-	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database"
+	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/rootcommand/environment"
 	"github.com/ryo-kagawa/go-utils/commandline"
 )
 
@@ -19,34 +19,27 @@ type Command struct {
 var _ = (commandline.RootCommand)(Command{})
 
 func (Command) Execute(arguments []string) (string, error) {
-	environment := GetEnvironment()
+	environment := environment.GetEnvironment()
 	err := environment.Validate()
 	if err != nil {
 		return "", err
 	}
 
-	dsn := database.GenerateDsn(
-		environment.DATABASE_USER,
-		environment.DATABASE_PASSWORD,
-		environment.DATABASE_URL,
-	)
-
 	bot, err := messaging_api.NewMessagingApiAPI(
-		environment.LINE_CHANNEL_TOKEN,
+		environment.Line.LINE_CHANNEL_TOKEN,
 	)
 	if err != nil {
 		return "", err
 	}
 
-	db, err := database.GetDatabase(dsn)
+	db, err := NewDatabase(environment)
 	if err != nil {
 		return "", err
 	}
-	defer db.Close()
 
-	karaokeSongDatabase := database.NewKaraokeSongDatabase(db)
-	http.HandleFunc("/", TimerHandler(RootHandler(environment, bot, karaokeSongDatabase)))
+	http.HandleFunc("/", TimerHandler(RootHandler(environment, bot, db)))
 
+	fmt.Println("Server listing")
 	err = http.ListenAndServe(":3000", nil)
 	if err != nil {
 		return "", err
@@ -63,7 +56,7 @@ func TimerHandler(handler http.Handler) http.HandlerFunc {
 	})
 }
 
-func RootHandler(environment Environment, bot *messaging_api.MessagingApiAPI, karaoke repository.KaraokeSongRepository) http.Handler {
+func RootHandler(environment environment.Environment, bot *messaging_api.MessagingApiAPI, karaoke repository.KaraokeSongRepository) http.Handler {
 	RandomPickKaraokeSong := func(text string) ([]model.KaraokeSong, error) {
 		switch text {
 		case "DAM":
@@ -77,7 +70,7 @@ func RootHandler(environment Environment, bot *messaging_api.MessagingApiAPI, ka
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cb, err := webhook.ParseRequest(
-			environment.LINE_CHANNEL_SECRET,
+			environment.Line.LINE_CHANNEL_SECRET,
 			r,
 		)
 		if err != nil {

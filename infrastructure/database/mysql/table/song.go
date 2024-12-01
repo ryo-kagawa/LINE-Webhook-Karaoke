@@ -22,7 +22,6 @@ lyrics     VARCHAR(1000) NOT NULL,
 damId      VARCHAR(7)        NULL                UNIQUE,
 joysoundId VARCHAR(6)        NULL                UNIQUE,
 
-
 PRIMARY KEY(id),
 FOREIGN KEY (artistId) REFERENCES artist(id)
 )

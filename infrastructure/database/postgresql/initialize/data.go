@@ -3,7 +3,7 @@ package initialize
 import (
 	"database/sql"
 
-	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/table"
+	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/postgresql/table"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/json/model"
 )
 
