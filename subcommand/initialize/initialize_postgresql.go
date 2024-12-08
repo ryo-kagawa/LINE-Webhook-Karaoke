@@ -19,12 +19,19 @@ func NewDatabase(environment environment.Environment) (database.Database, error)
 		uint16(port),
 		environment.DATABASE_POSTGRESQL_USER,
 		environment.DATABASE_POSTGRESQL_PASSWORD,
+		environment.DATABASE_POSTGRESQL_DATABASE,
+		environment.DATABASE_POSTGRESQL_SSLMODE,
 		"",
 	)
 }
 
 func DatabaseInitialize(db database.Database, environment environment.Environment) error {
-	if err := db.InitializeDatabase(environment.DATABASE_POSTGRESQL_DATABASE); err != nil {
+	if environment.DATABASE_INITIALIZE_DATABASE == "true" {
+		if err := db.InitializeDatabase(environment.DATABASE_POSTGRESQL_DATABASE); err != nil {
+			return err
+		}
+	}
+	if err := db.InitializeSchema(environment.DATABASE_POSTGRESQL_SCHEMA); err != nil {
 		return err
 	}
 	port, _ := strconv.Atoi(environment.DATABASE_POSTGRESQL_PORT)
@@ -34,6 +41,8 @@ func DatabaseInitialize(db database.Database, environment environment.Environmen
 		environment.DATABASE_POSTGRESQL_USER,
 		environment.DATABASE_POSTGRESQL_PASSWORD,
 		environment.DATABASE_POSTGRESQL_DATABASE,
+		environment.DATABASE_POSTGRESQL_SSLMODE,
+		environment.DATABASE_POSTGRESQL_SCHEMA,
 	)
 	if err != nil {
 		return err

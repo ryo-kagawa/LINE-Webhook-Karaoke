@@ -20,5 +20,7 @@ func NewDatabase(environment environment.Environment) (database.Database, error)
 		environment.Database.DATABASE_POSTGRESQL_USER,
 		environment.Database.DATABASE_POSTGRESQL_PASSWORD,
 		environment.Database.DATABASE_POSTGRESQL_DATABASE,
+		environment.Database.DATABASE_POSTGRESQL_SSLMODE,
+		environment.Database.DATABASE_POSTGRESQL_SCHEMA,
 	)
 }

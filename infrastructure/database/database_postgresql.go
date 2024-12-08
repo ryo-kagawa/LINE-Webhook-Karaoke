@@ -12,10 +12,16 @@ import (
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/postgresql/initialize"
 )
 
-func NewDatabase(host string, port uint16, user string, password string, database string) (Database, error) {
-	db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable", user, password, host, port, database))
+func NewDatabase(host string, port uint16, user string, password string, database string, sslMode string, schema string) (Database, error) {
+	db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s&search_path=%s", user, password, host, port, database, sslMode, schema))
 	if err != nil {
 		return Database{}, err
+	}
+	if schema != "" {
+		_, err := db.Exec("SET search_path TO " + schema)
+		if err != nil {
+			return Database{}, err
+		}
 	}
 
 	return Database{
@@ -25,6 +31,10 @@ func NewDatabase(host string, port uint16, user string, password string, databas
 
 func (d Database) InitializeDatabase(database string) error {
 	return initialize.InitializeDatabase(d.db, database)
+}
+
+func (d Database) InitializeSchema(schema string) error {
+	return initialize.InitializeSchema(d.db, schema)
 }
 
 func (d Database) InitializeTable() error {

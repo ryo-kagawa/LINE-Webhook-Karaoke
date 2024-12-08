@@ -16,3 +16,16 @@ func InitializeDatabase(db *sql.DB, database string) error {
 
 	return nil
 }
+
+func InitializeSchema(db *sql.DB, schema string) error {
+	_, err := db.Exec("DROP SCHEMA IF EXISTS " + schema)
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec("CREATE SCHEMA " + schema)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
