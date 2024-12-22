@@ -26,16 +26,16 @@ func NewDatabase(address string, user string, password string, database string) 
 	}
 
 	return Database{
-		db: db,
+		DB: db,
 	}, nil
 }
 
 func (d Database) Initialize(database string) error {
-	return initialize.InitializeDB(d.db, database)
+	return initialize.InitializeDB(d.DB, database)
 }
 
 func (d Database) Dam() ([]model.KaraokeSong, error) {
-	rows, err := d.db.Query(
+	rows, err := d.DB.Query(
 		`
 SELECT
 	artist.name AS artistName,
@@ -88,7 +88,7 @@ ORDER BY
 }
 
 func (d Database) Joysound() ([]model.KaraokeSong, error) {
-	rows, err := d.db.Query(
+	rows, err := d.DB.Query(
 		`
 SELECT
 	artist.name AS artistName,
@@ -141,7 +141,7 @@ ORDER BY
 }
 
 func (d Database) Ramdom() ([]model.KaraokeSong, error) {
-	rows, err := d.db.Query(
+	rows, err := d.DB.Query(
 		`
 SELECT
 	artist.name AS artistName,
