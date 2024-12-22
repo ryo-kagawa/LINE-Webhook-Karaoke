@@ -7,7 +7,7 @@ import (
 )
 
 type Database struct {
-	db *sql.DB
+	DB *sql.DB
 }
 
 var _ = (repository.KaraokeSongRepository)(Database{})

@@ -8,8 +8,8 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/domain/model"
-	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/mysql/table"
 	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/postgresql/initialize"
+	"github.com/ryo-kagawa/LINE-Webhook-Karaoke/infrastructure/database/postgresql/table"
 )
 
 func NewDatabase(host string, port uint16, user string, password string, database string, sslMode string, schema string) (Database, error) {
@@ -25,30 +25,30 @@ func NewDatabase(host string, port uint16, user string, password string, databas
 	}
 
 	return Database{
-		db: db,
+		DB: db,
 	}, nil
 }
 
 func (d Database) InitializeDatabase(database string) error {
-	return initialize.InitializeDatabase(d.db, database)
+	return initialize.InitializeDatabase(d.DB, database)
 }
 
 func (d Database) InitializeSchema(schema string) error {
-	return initialize.InitializeSchema(d.db, schema)
+	return initialize.InitializeSchema(d.DB, schema)
 }
 
 func (d Database) InitializeTable() error {
-	if err := initialize.InitializeTable(d.db); err != nil {
+	if err := initialize.InitializeTable(d.DB); err != nil {
 		return err
 	}
-	if err := initialize.InitializeData(d.db); err != nil {
+	if err := initialize.InitializeData(d.DB); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (d Database) Dam() ([]model.KaraokeSong, error) {
-	rows, err := d.db.Query(
+	rows, err := d.DB.Query(
 		`
 SELECT
 	artist.name AS artistName,
@@ -101,7 +101,7 @@ ORDER BY
 }
 
 func (d Database) Joysound() ([]model.KaraokeSong, error) {
-	rows, err := d.db.Query(
+	rows, err := d.DB.Query(
 		`
 SELECT
 	artist.name AS artistName,
@@ -154,7 +154,7 @@ ORDER BY
 }
 
 func (d Database) Ramdom() ([]model.KaraokeSong, error) {
-	rows, err := d.db.Query(
+	rows, err := d.DB.Query(
 		`
 SELECT
 	artist.name AS artistName,
